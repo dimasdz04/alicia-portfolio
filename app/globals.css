@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+body {
+  /* Mengganti @apply dengan warna CSS native (Slate 950 & Slate 200) */
+  background-color: #020617; 
+  color: #e2e8f0;
+  overflow-x: hidden;
+  
+  /* Efek Grid Blueprint / PCB */
+  background-image: 
+    linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.terminal-text {
+  font-family: 'Courier New', Courier, monospace;
+}
