@@ -6,6 +6,7 @@ import { Terminal, Cpu, PenTool, Layers, X, ChevronRight } from 'lucide-react';
 import ProjectCard3D from '../components/ProjectCard3D';
 import TypingTextLoop from '../components/TypingTextLoop';
 import CircularGallery from '../components/CircularGallery';
+import Folder from '../components/Folder'; // <-- IMPORT FOLDER
 
 const committeeData = [
   { 
@@ -28,9 +29,27 @@ const committeeData = [
 export default function Portfolio() {
   const [activeExperience, setActiveExperience] = useState<number | null>(null);
 
+  // Kertas di dalam folder yang menjadi tombol navigasi
+  const folderMenu = [
+    <a href="#specs" key="1" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
+      01.<br/>Specs
+    </a>,
+    <a href="#committees" key="2" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
+      02.<br/>Comm
+    </a>,
+    <a href="#projects" key="3" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
+      03.<br/>R&D
+    </a>
+  ];
+
   return (
     <main className="min-h-screen selection:bg-cyan-500/30">
       
+      {/* MENU FOLDER FIXED DI POJOK KANAN ATAS */}
+      <div className="fixed top-6 right-6 md:top-10 md:right-10 z-[100]">
+        <Folder size={0.7} color="#06b6d4" items={folderMenu} />
+      </div>
+
       {/* HERO SECTION DENGAN FOTO */}
       <section className="min-h-screen flex items-center px-8 md:px-24">
         <div className="max-w-6xl w-full z-10 flex flex-col-reverse md:flex-row items-center justify-between gap-12 mt-12 md:mt-0">
@@ -58,8 +77,7 @@ export default function Portfolio() {
           {/* Bagian Kanan: Foto Profil Tanpa Background */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-            // Tambahan md:ml-auto dan md:translate-x-12 untuk menggeser foto ekstra ke kanan
-            className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-auto md:translate-x-12 lg:translate-x-100"
+            className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-auto md:translate-x-12 lg:translate-x-20"
           >
             {/* Ganti src ini dengan file .png Anda di folder public */}
             <div className="relative w-64 md:w-80 h-auto group">
@@ -75,8 +93,8 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SECTION SPECS & SKILLS */}
-      <section className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30 backdrop-blur-sm relative z-20">
+      {/* SECTION SPECS & SKILLS (Ditambahkan id="specs") */}
+      <section id="specs" className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30 backdrop-blur-sm relative z-20">
         <h2 className="text-3xl font-bold mb-12 font-mono flex items-center gap-4">
           <span className="text-orange-500">01.</span> Specs & Skills
         </h2>
@@ -88,8 +106,8 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SECTION GALLERY */}
-      <section className="py-24 border-t border-slate-800/50 relative bg-slate-950 flex flex-col items-center">
+      {/* SECTION GALLERY (Ditambahkan id="committees") */}
+      <section id="committees" className="py-24 border-t border-slate-800/50 relative bg-slate-950 flex flex-col items-center">
         <div className="w-full px-8 md:px-24 mb-8">
            <h2 className="text-3xl font-bold font-mono">
             <span className="text-cyan-500">02.</span> Committees
@@ -160,8 +178,8 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* PROJECTS SECTION */}
-      <section className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30">
+      {/* PROJECTS SECTION (Ditambahkan id="projects") */}
+      <section id="projects" className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30">
         <h2 className="text-3xl font-bold mb-12 font-mono">
           <span className="text-orange-500">03.</span> Hardware & R&D
         </h2>
@@ -191,7 +209,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <footer className="py-12 border-t border-slate-800 bg-slate-950 flex flex-col items-center">
+      <footer className="py-12 px-8 md:px-24 border-t border-slate-800 bg-slate-950 flex flex-col items-end text-right">
         <div className="flex gap-8 text-slate-400 mb-6 font-mono text-sm">
           <a href="#" className="hover:text-cyan-400 transition">GitHub</a>
           <a href="#" className="hover:text-cyan-400 transition">LinkedIn</a>
