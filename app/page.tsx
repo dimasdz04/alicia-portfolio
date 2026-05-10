@@ -58,13 +58,14 @@ export default function Portfolio() {
           {/* Bagian Kanan: Foto Profil Tanpa Background */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-            className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-12"
+            // Tambahan md:ml-auto dan md:translate-x-12 untuk menggeser foto ekstra ke kanan
+            className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-auto md:translate-x-12 lg:translate-x-100"
           >
             {/* Ganti src ini dengan file .png Anda di folder public */}
             <div className="relative w-64 md:w-80 h-auto group">
               <div className="absolute inset-0 bg-cyan-500/20 blur-[60px] rounded-full z-0 group-hover:bg-cyan-400/30 transition-colors duration-700"></div>
               <img 
-                src="/foto-anda-tanpa-bg.png" 
+                src="/dimas.png" 
                 alt="Profile"
                 className="w-full h-auto object-contain relative z-10 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] group-hover:scale-105 transition-transform duration-700 ease-out"
               />
