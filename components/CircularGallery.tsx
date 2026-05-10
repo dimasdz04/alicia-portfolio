@@ -481,11 +481,9 @@ class App {
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
-  onTouchUp(e: MouseEvent | TouchEvent) {
+onTouchUp(e: MouseEvent | TouchEvent) {
     this.isDown = false;
     
-    // CUSTOM CLICK DETECTION
-    // NOTE: use scroll.current (already eased towards target) to avoid wrong index.
     const x = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as MouseEvent).clientX;
     const y = 'changedTouches' in e ? e.changedTouches[0].clientY : (e as MouseEvent).clientY;
     const endTime = performance.now();
@@ -494,12 +492,24 @@ class App {
     const tooSlow = (endTime - this.startTime) >= 400;
 
     if (!movedEnough && !tooSlow) {
-      if (this.medias && this.medias[0] && this.medias[0].width) {
-        const width = this.medias[0].width;
-        const itemIndex = Math.round(Math.abs(this.scroll.current) / width);
-        const actualIndex = ((itemIndex % this.originalItemsLength) + this.originalItemsLength) % this.originalItemsLength;
-        this.onClick?.(actualIndex);
-      }
+      // LOGIKA BARU: Konversi kursor pixel ke kordinat 3D WebGL
+      const mouseNDC = (x / this.screen.width) * 2 - 1;
+      const mouseWebGLX = mouseNDC * (this.viewport.width / 2);
+
+      let closestIndex = 0;
+      let minDistance = Infinity;
+
+      // Cari mesh gambar mana yang X-nya paling dekat dengan kursor
+      this.medias.forEach((media) => {
+        const distX = Math.abs(media.plane.position.x - mouseWebGLX);
+        if (distX < minDistance) {
+          minDistance = distX;
+          closestIndex = media.index;
+        }
+      });
+
+      const actualIndex = closestIndex % this.originalItemsLength;
+      this.onClick?.(actualIndex);
     }
     this.onCheck();
   }
@@ -539,34 +549,40 @@ class App {
     this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
 
-  addEventListeners() {
+ addEventListeners() {
     this.boundOnResize = this.onResize.bind(this);
     this.boundOnWheel = this.onWheel.bind(this);
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
+    
     window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('mousewheel', this.boundOnWheel);
-    window.addEventListener('wheel', this.boundOnWheel);
-    window.addEventListener('mousedown', this.boundOnTouchDown);
+    // Mouse down & touch start HANYA aktif kalau diklik di area galeri
+    this.container.addEventListener('mousedown', this.boundOnTouchDown);
+    this.container.addEventListener('touchstart', this.boundOnTouchDown);
+    // Mouse move & up biarkan global agar saat di-drag kursor keluar area tidak macet
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp as EventListener);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
     window.addEventListener('touchmove', this.boundOnTouchMove);
     window.addEventListener('touchend', this.boundOnTouchUp as EventListener);
+    // Scroll (wheel) khusus di area galeri saja
+    this.container.addEventListener('mousewheel', this.boundOnWheel);
+    this.container.addEventListener('wheel', this.boundOnWheel);
   }
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener('resize', this.boundOnResize);
-    window.removeEventListener('mousewheel', this.boundOnWheel);
-    window.removeEventListener('wheel', this.boundOnWheel);
-    window.removeEventListener('mousedown', this.boundOnTouchDown);
+    
+    this.container.removeEventListener('mousedown', this.boundOnTouchDown);
+    this.container.removeEventListener('touchstart', this.boundOnTouchDown);
     window.removeEventListener('mousemove', this.boundOnTouchMove);
     window.removeEventListener('mouseup', this.boundOnTouchUp as EventListener);
-    window.removeEventListener('touchstart', this.boundOnTouchDown);
     window.removeEventListener('touchmove', this.boundOnTouchMove);
     window.removeEventListener('touchend', this.boundOnTouchUp as EventListener);
+    this.container.removeEventListener('mousewheel', this.boundOnWheel);
+    this.container.removeEventListener('wheel', this.boundOnWheel);
+    
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }

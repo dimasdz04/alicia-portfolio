@@ -31,29 +31,51 @@ export default function Portfolio() {
   return (
     <main className="min-h-screen selection:bg-cyan-500/30">
       
-      {/* ... [HERO & SKILLS SECTION TETAP SAMA] ... */}
+      {/* HERO SECTION DENGAN FOTO */}
       <section className="min-h-screen flex items-center px-8 md:px-24">
-        <div className="max-w-4xl z-10">
+        <div className="max-w-6xl w-full z-10 flex flex-col-reverse md:flex-row items-center justify-between gap-12 mt-12 md:mt-0">
+          
+          {/* Bagian Kiri: Teks */}
+          <div className="w-full md:w-[55%]">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-cyan-400 mb-6 font-mono"
+            >
+              <Terminal size={20} />
+              <span>&gt; sys.init(alicia_maharani)</span>
+            </motion.div>
+            <TypingTextLoop />
+            <motion.p 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+              className="text-lg text-slate-400 terminal-text leading-relaxed mt-4"
+            >
+              Computer Engineering Tech student at SV IPB. 
+              Rooted in structural precision from SMK 1 Cibinong (Architecture). 
+              Currently engineering IoT devices, custom drones, and 3D hardware components.
+            </motion.p>
+          </div>
+
+          {/* Bagian Kanan: Foto Profil Tanpa Background */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-cyan-400 mb-6 font-mono"
+            initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+            className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-12"
           >
-            <Terminal size={20} />
-            <span>&gt; sys.init(alicia_maharani)</span>
+            {/* Ganti src ini dengan file .png Anda di folder public */}
+            <div className="relative w-64 md:w-80 h-auto group">
+              <div className="absolute inset-0 bg-cyan-500/20 blur-[60px] rounded-full z-0 group-hover:bg-cyan-400/30 transition-colors duration-700"></div>
+              <img 
+                src="/foto-anda-tanpa-bg.png" 
+                alt="Profile"
+                className="w-full h-auto object-contain relative z-10 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+            </div>
           </motion.div>
-          <TypingTextLoop />
-          <motion.p 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
-            className="text-lg text-slate-400 max-w-2xl terminal-text leading-relaxed mt-4"
-          >
-            Computer Engineering Tech student at SV IPB. 
-            Rooted in structural precision from SMK 1 Cibinong (Architecture). 
-            Currently engineering IoT devices, custom drones, and 3D hardware components.
-          </motion.p>
+
         </div>
       </section>
 
-      <section className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30 backdrop-blur-sm">
+      {/* SECTION SPECS & SKILLS */}
+      <section className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30 backdrop-blur-sm relative z-20">
         <h2 className="text-3xl font-bold mb-12 font-mono flex items-center gap-4">
           <span className="text-orange-500">01.</span> Specs & Skills
         </h2>
@@ -80,7 +102,7 @@ export default function Portfolio() {
             bend={3} 
             textColor="#ffffff" 
             borderRadius={0.05} 
-            scrollEase={0.05}
+            scrollEase={0.1} 
             onClick={(index) => setActiveExperience(index)} 
           />
         </div>
@@ -93,16 +115,15 @@ export default function Portfolio() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            // Latar belakang gelap dan blur
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm"
-            onClick={() => setActiveExperience(null)} // Tutup jika background diklik
+            onClick={() => setActiveExperience(null)} 
           >
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row shadow-[0_0_40px_rgba(6,182,212,0.15)]"
-              onClick={(e) => e.stopPropagation()} // Jangan tutup jika area modal diklik
+              onClick={(e) => e.stopPropagation()} 
             >
               {/* Sisi Kiri: Gambar Zoom Out */}
               <div className="w-full md:w-1/2 h-[300px] md:h-[400px] relative">
@@ -115,7 +136,6 @@ export default function Portfolio() {
 
               {/* Sisi Kanan: Teks Paragraf */}
               <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative">
-                {/* Tombol Close */}
                 <button 
                   onClick={() => setActiveExperience(null)}
                   className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
