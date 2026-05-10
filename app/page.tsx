@@ -6,7 +6,7 @@ import { Terminal, Cpu, PenTool, Layers, X, ChevronRight } from 'lucide-react';
 import ProjectCard3D from '../components/ProjectCard3D';
 import TypingTextLoop from '../components/TypingTextLoop';
 import CircularGallery from '../components/CircularGallery';
-import Folder from '../components/Folder'; // <-- IMPORT FOLDER
+import StaggeredMenu from '../components/StaggeredMenu'; // IMPORT MENU BARU
 
 const committeeData = [
   { 
@@ -26,29 +26,42 @@ const committeeData = [
   }
 ];
 
+// Opsi Menu Navigasi
+const menuItems = [
+  { label: 'Hero', ariaLabel: 'Go to Hero section', link: '#' },
+  { label: 'Specs', ariaLabel: 'Go to Specs section', link: '#specs' },
+  { label: 'Committees', ariaLabel: 'Go to Committees section', link: '#committees' },
+  { label: 'R&D', ariaLabel: 'Go to Projects section', link: '#projects' }
+];
+
+// Opsi Sosial Media
+const socialItems = [
+  { label: 'GitHub', link: 'https://github.com/dimasdz04' },
+  { label: 'LinkedIn', link: '#' },
+  { label: 'Email', link: '#' }
+];
+
 export default function Portfolio() {
   const [activeExperience, setActiveExperience] = useState<number | null>(null);
-
-  // Kertas di dalam folder yang menjadi tombol navigasi
-  const folderMenu = [
-    <a href="#specs" key="1" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
-      01.<br/>Specs
-    </a>,
-    <a href="#committees" key="2" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
-      02.<br/>Comm
-    </a>,
-    <a href="#projects" key="3" className="flex items-center justify-center w-full h-full text-[10px] font-bold text-slate-800 hover:text-cyan-600 font-mono text-center leading-none">
-      03.<br/>R&D
-    </a>
-  ];
 
   return (
     <main className="min-h-screen selection:bg-cyan-500/30">
       
-      {/* MENU FOLDER FIXED DI POJOK KANAN ATAS */}
-      <div className="fixed top-6 right-6 md:top-10 md:right-10 z-[100]">
-        <Folder size={0.7} color="#06b6d4" items={folderMenu} />
-      </div>
+      {/* MENU STAGGERED FIXED */}
+      <StaggeredMenu
+        isFixed={true}
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials={true}
+        displayItemNumbering={true}
+        menuButtonColor="#06b6d4" // Warna Cyan agar cocok dengan tema
+        openMenuButtonColor="#0f172a" // Warna hitam saat panel terbuka
+        changeMenuColorOnOpen={true}
+        colors={['#1e293b', '#0f172a']} // Warna layer panel disesuaikan slate
+        accentColor="#06b6d4" // Hover Cyan
+        logoUrl="/file.svg" // Ganti logo default
+      />
 
       {/* HERO SECTION DENGAN FOTO */}
       <section className="min-h-screen flex items-center px-8 md:px-24">
@@ -79,7 +92,6 @@ export default function Portfolio() {
             initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
             className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-auto md:translate-x-12 lg:translate-x-20"
           >
-            {/* Ganti src ini dengan file .png Anda di folder public */}
             <div className="relative w-64 md:w-80 h-auto group">
               <div className="absolute inset-0 bg-cyan-500/20 blur-[60px] rounded-full z-0 group-hover:bg-cyan-400/30 transition-colors duration-700"></div>
               <img 
@@ -93,7 +105,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SECTION SPECS & SKILLS (Ditambahkan id="specs") */}
+      {/* SECTION SPECS & SKILLS */}
       <section id="specs" className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30 backdrop-blur-sm relative z-20">
         <h2 className="text-3xl font-bold mb-12 font-mono flex items-center gap-4">
           <span className="text-orange-500">01.</span> Specs & Skills
@@ -106,7 +118,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SECTION GALLERY (Ditambahkan id="committees") */}
+      {/* SECTION GALLERY */}
       <section id="committees" className="py-24 border-t border-slate-800/50 relative bg-slate-950 flex flex-col items-center">
         <div className="w-full px-8 md:px-24 mb-8">
            <h2 className="text-3xl font-bold font-mono">
@@ -178,7 +190,7 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* PROJECTS SECTION (Ditambahkan id="projects") */}
+      {/* PROJECTS SECTION */}
       <section id="projects" className="py-24 px-8 md:px-24 border-t border-slate-800/50 bg-slate-900/30">
         <h2 className="text-3xl font-bold mb-12 font-mono">
           <span className="text-orange-500">03.</span> Hardware & R&D
