@@ -6,7 +6,7 @@ import { Terminal, Cpu, PenTool, Layers, X, ChevronRight } from 'lucide-react';
 import ProjectCard3D from '../components/ProjectCard3D';
 import TypingTextLoop from '../components/TypingTextLoop';
 import CircularGallery from '../components/CircularGallery';
-import StaggeredMenu from '../components/StaggeredMenu'; // IMPORT MENU BARU
+import StaggeredMenu from '../components/StaggeredMenu';
 
 const committeeData = [
   { 
@@ -26,15 +26,14 @@ const committeeData = [
   }
 ];
 
-// Opsi Menu Navigasi
+// NAMA MENU SUDAH DIGANTI
 const menuItems = [
-  { label: 'Hero', ariaLabel: 'Go to Hero section', link: '#' },
+  { label: 'Me', ariaLabel: 'Go to Me section', link: '#me' },
   { label: 'Specs', ariaLabel: 'Go to Specs section', link: '#specs' },
-  { label: 'Committees', ariaLabel: 'Go to Committees section', link: '#committees' },
+  { label: 'Experience', ariaLabel: 'Go to Experience section', link: '#experience' },
   { label: 'R&D', ariaLabel: 'Go to Projects section', link: '#projects' }
 ];
 
-// Opsi Sosial Media
 const socialItems = [
   { label: 'GitHub', link: 'https://github.com/dimasdz04' },
   { label: 'LinkedIn', link: '#' },
@@ -55,16 +54,16 @@ export default function Portfolio() {
         socialItems={socialItems}
         displaySocials={true}
         displayItemNumbering={true}
-        menuButtonColor="#06b6d4" // Warna Cyan agar cocok dengan tema
-        openMenuButtonColor="#0f172a" // Warna hitam saat panel terbuka
+        menuButtonColor="#06b6d4" 
+        openMenuButtonColor="#0f172a" 
         changeMenuColorOnOpen={true}
-        colors={['#1e293b', '#0f172a']} // Warna layer panel disesuaikan slate
-        accentColor="#06b6d4" // Hover Cyan
-        logoUrl="/file.svg" // Ganti logo default
+        colors={['#1e293b', '#0f172a']} 
+        accentColor="#06b6d4" 
+        logoUrl="/file.svg" 
       />
 
-      {/* HERO SECTION DENGAN FOTO */}
-      <section className="min-h-screen flex items-center px-8 md:px-24">
+      {/* HERO SECTION - Ditambahkan id="me" */}
+      <section id="me" className="min-h-screen flex items-center px-8 md:px-24">
         <div className="max-w-6xl w-full z-10 flex flex-col-reverse md:flex-row items-center justify-between gap-12 mt-12 md:mt-0">
           
           {/* Bagian Kiri: Teks */}
@@ -87,7 +86,7 @@ export default function Portfolio() {
             </motion.p>
           </div>
 
-          {/* Bagian Kanan: Foto Profil Tanpa Background */}
+          {/* Bagian Kanan: Foto Profil */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
             className="w-full md:w-[45%] flex justify-center md:justify-end md:ml-auto md:translate-x-12 lg:translate-x-20"
@@ -118,11 +117,11 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SECTION GALLERY */}
-      <section id="committees" className="py-24 border-t border-slate-800/50 relative bg-slate-950 flex flex-col items-center">
+      {/* SECTION GALLERY - Ditambahkan id="experience" dan diganti judulnya */}
+      <section id="experience" className="py-24 border-t border-slate-800/50 relative bg-slate-950 flex flex-col items-center">
         <div className="w-full px-8 md:px-24 mb-8">
            <h2 className="text-3xl font-bold font-mono">
-            <span className="text-cyan-500">02.</span> Committees
+            <span className="text-cyan-500">02.</span> Experience
           </h2>
           <p className="text-slate-400 mt-2 font-mono text-sm">&gt; Drag to rotate. Click to inspect data.</p>
         </div>
@@ -139,7 +138,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* POP-UP MODAL (ZOOM GAMBAR & TEKS) */}
+      {/* POP-UP MODAL */}
       <AnimatePresence>
         {activeExperience !== null && (
           <motion.div 
@@ -156,7 +155,6 @@ export default function Portfolio() {
               className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row shadow-[0_0_40px_rgba(6,182,212,0.15)]"
               onClick={(e) => e.stopPropagation()} 
             >
-              {/* Sisi Kiri: Gambar Zoom Out */}
               <div className="w-full md:w-1/2 h-[300px] md:h-[400px] relative">
                 <img 
                   src={committeeData[activeExperience].image} 
@@ -165,7 +163,6 @@ export default function Portfolio() {
                 />
               </div>
 
-              {/* Sisi Kanan: Teks Paragraf */}
               <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative">
                 <button 
                   onClick={() => setActiveExperience(null)}
